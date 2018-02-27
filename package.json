@@ -1,0 +1,18 @@
+{
+  "name": "devoir_1",
+  "version": "1.0.0",
+  "description": "Scrap the website of RP games to do request in NoSql and SQL database",
+  "main": "index.js",
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.2",
+    "co": "^4.6.0",
+    "mongodb": "^3.0.2",
+    "tinyreq": "^3.3.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Natacha GUILLET, Dorian Boche",
+  "license": "ISC"
+}
