@@ -13,16 +13,18 @@ const {
 
 const mongo = new Mongo(MongoClient, MONGO_URI);
 
+mongo.resetCollection('nice_spell');
+mongo.getgoodWizardSpell();
 // ------ SCRAP ALL SPELLS IN DxContent --------
-// mongo.resetCollection("skills");
-// co(function* (){
-//   let skills = [];
-//   for (var i = 1; i < 21; i++) {
-//       yield dxContent(i)
-//       .then(skill => skills.push(skill));
-//   }
-//   return skills
-// }).then(skills => mongo.insertSkills(skills));
+//mongo.resetCollection("wizard_spell");
+ /*co(function* (){
+   let skills = [];
+  for (var i = 1; i < 1976; i++) {
+      yield dxContent(i)
+      .then(skill => skills.push(skill));
+   }
+   return skills
+}).then(skills => mongo.insertSkills(skills));*/
 
-mongo.getWizardSpell();
-// .then(result => console.log(result));
+//mongo.getWizardSpell();
+ //.then(result => console.log(result));

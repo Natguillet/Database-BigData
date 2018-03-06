@@ -78,10 +78,10 @@ class Mongo {
               return levels[i][key];
           });
           spell.level = vals[0];
-        }
-      }
       if(spell.level) emit (this.skillName, spell);
     }
+  }
+}
 
     let reduce = function (key, values) {
       return null;
@@ -93,6 +93,32 @@ class Mongo {
           out : "wizard_spell"
       }));
   }
+
+  getgoodWizardSpell() {
+
+  let map = function () {
+    let spell = {};
+    /*spell.name = this.value.name;
+    spell.components = this.components;
+    spell.spell_resistance = this.spell_resistance;
+    let levels = this.level;*/
+    //emit (this.value.skillName, this.value.components);
+    if(this.value.level <= 4 && this.value.components.length == 1 && this.value.components[0] == "V")
+    {
+    emit(this.value.name,1)
+   }
 }
+  let reduce = function (key, values) {
+    return Array.sum(values);
+  }
+
+  this.getConnection()
+  .then(db => db.collection('wizard_spell'))
+  .then(col => col.mapReduce(map, reduce, {
+        out : "nice_spell"
+    }))
+}
+}
+
 
 module.exports = Mongo;
