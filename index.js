@@ -1,4 +1,4 @@
-'use strict';
+use strict';
 const Mongo = require('./mongo');
 const dxContent = require('./dxContent');
 const co = require('co');
