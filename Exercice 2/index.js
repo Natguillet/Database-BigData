@@ -1,19 +1,71 @@
-var mongo = require("mongodb");
-let fs = require('fs');
+'use strict';
+const Mongo = require('./../Exercice 1/mongo');
+const fs = require('fs');
 
-var MongoClient = require('mongodb').MongoClient;
-var url = "mongodb://localhost:27017/mydb";
+/* Load DB clients */
+const MongoClient = require('mongodb').MongoClient;
+
+/* Load env variables */
+const {
+  MONGO_URI
+} = require('./../config');
+
+const mongo = new Mongo(MongoClient, MONGO_URI);
 let result = fs.readFileSync("Pagerank.json", "UTF-8");
-let dbo;
+let y=0;
+let collectionName = 'pageRank';
 
-MongoClient.connect(url, function(err, db) {
-  if (err) throw err;
-  dbo = db.db("mydb");
-  dbo.createCollection("PageRank", function(err, res) {
-    if (err) throw err;
-    console.log("Collection created!");
-    db.close();
-  });
- dbo.collection("PageRank").insert(JSON.parse(result), function (err, docs) {
-  	console.log("DB Insert Completed");
-  });
+mongo.resetCollection('pageRank');
+mongo.insertPages(JSON.parse(result));
+//.then(() => mongo.pageRank());
+
+  let map = function(){
+      let url = this._id;
+      let outlink_list = this.value.outlink_list;
+      let pagerank = this.value.pagerank;
+      for (var i=0; i<outlink_list.length;i++)
+      {
+      var link = outlink_list[i];
+      emit(link, pagerank/outlink_list.length);
+    }
+      emit(url, 0);
+      emit(url, outlink_list);
+    }
+
+  let reduce = function(url, list){
+      let outlink_list = [];
+      let pagerank = 0;
+
+      list.forEach(adjlist => {
+          if(Array.isArray(adjlist)){
+              outlink_list = adjlist;
+          }
+          else{
+              pagerank = pagerank + adjlist;
+          }
+      });
+      pagerank = 1 - 0.85 + ( 0.85 * pagerank);
+      return({"outlink_list":outlink_list,"pagerank":pagerank});
+  }
+
+  let mapReducer = function(collectionName)
+  {
+    return mongo.getConnection()
+    .then(db => db.collection(collectionName))
+    .then(col =>{
+       col.mapReduce(map, reduce, {
+          out : "result"
+      }, function(err, docs, lastErrorObject){
+            if (y<20)
+            {
+                collectionName = 'result';
+			          console.log("\nInteration : " + y);
+                mapReducer(collectionName);
+                y++;
+            }
+        }
+      );
+  })
+  }
+
+mapReducer(collectionName);

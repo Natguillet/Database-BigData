@@ -97,7 +97,7 @@ class Mongo {
     {
       emit(this.value.name,1)
     }
-}
+  }
   let reduce = function (key, values) {
     return Array.sum(values);
   }
@@ -106,9 +106,8 @@ class Mongo {
   .then(db => db.collection('wizard_spell'))
   .then(col => col.mapReduce(map, reduce, {
         out : "nice_spell"
-    }))
-  }
-}
+  }))
 
+}
 
 module.exports = Mongo;
