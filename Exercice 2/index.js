@@ -1,7 +1,6 @@
 'use strict';
-const Mongo = require('./../mongo');
+const Mongo = require('./../Exercice 1/mongo');
 const fs = require('fs');
-const pageRank = require('./pageRank');
 
 /* Load DB clients */
 const MongoClient = require('mongodb').MongoClient;
