@@ -38,8 +38,6 @@ co(function* (){
            stmt.run (skill.skillName,Object.keys(levels[i])[0],Object.values(levels[i])[0],test);
            }
          }
-         //console.log(skill.skillName);
-         //stmt.run (skill.skillName,skill.school,Object.keys(skill.level[0])[0]);
        })
   }
 }
@@ -58,13 +56,4 @@ function toObject(arr) {
   return rv;
 }
 
-})
-//mongo.freePito();
-// .then(result => console.log(result));
-
-/*db.close((err) => {
-  if (err) {
-    return console.error(err.message);
-  }
-  console.log('Close the database connection.');
-});*/
+});

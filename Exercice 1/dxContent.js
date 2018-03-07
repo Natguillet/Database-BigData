@@ -18,10 +18,6 @@ module.exports = (index) => {
         let $ = cheerio.load(body), pageData = {};
 
         // 3. Extract the data
-        if($('.heading').text() == null)
-        {
-          return;
-        }
         pageData['skillName'] = $('.heading').text();
         $('.SPDet').map(function(i, el) {
           // this === el
@@ -61,10 +57,3 @@ module.exports = (index) => {
     });
   })
 }
-
-// Extract some data from my website
-// scrape("http://www.dxcontent.com/SDB_SpellBlock.asp?SDBID=950",
-//  (err, data) => {
-//     console.log(err || data);
-// });
-//1975
