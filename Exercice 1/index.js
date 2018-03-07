@@ -15,19 +15,21 @@ const mongo = new Mongo(MongoClient, MONGO_URI);
 
 // ------ SCRAP ALL SPELLS IN DxContent --------
 // reset the docuement if exist
-mongo.resetCollection("skills");
+//mongo.resetCollection("skills");
  co(function* (){
    let skills = [];
    for (var i = 1; i < 1976; i++) {
      if (i != 1972 && i != 1841) {
        yield dxContent(i)
-       .then(skill => skills.push(skill));
+       .then(skill => {if(!skills.includes(skill)) skills.push(skill)});
      }
    }
    yield mongo.insertSkills(skills);
    // ------ DO MAPREDUCE FOR HAVE JUST WIZARD SPELL ---------
-   yield mongo.resetCollection('wizard_spell');
-   yield mongo.getWizardSpell();
+   yield mongo.resetCollection('wizard_spell')
+   .then(() => console.log("couccou1"));
+   yield mongo.getWizardSpell()
+   .then(() => console.log("coucou2"));
    // ----- DO MAPREDUCE FOR FREE PITO ------
    // The spell should be a wizard spell and no verbal and
    // the max level is 4

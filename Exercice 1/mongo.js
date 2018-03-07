@@ -49,7 +49,8 @@ class Mongo {
   insertSkills(skills) {
     return this.getConnection()
     .then(db => db.collection('skills'))
-    .then(col => col.insertMany(skills));
+    .then(col =>col.createIndex({ "this.skillName" : 1} , { unique: true }))
+    .then(col => col.insertMany(skills))
   }
 
   resetCollection(collectionName) {
@@ -57,12 +58,6 @@ class Mongo {
     .then(db => db.collection(collectionName))
     .then(col => col.removeMany())
   }
-  // {
-  //   "name": "Acid Arrow",
-  //   "level": 2,
-  //   "components" : ["V", "S", "M"],
-  //   "spell_resistance" : false
-  // }
 
   getWizardSpell() {
 
@@ -98,7 +93,7 @@ class Mongo {
 
   let map = function () {
     let spell = {};
-    if(this.value.level <= 4 && this.value.components.length === 1 && this.value.components[0] === "V")
+    if(this.value.level <= 4 && this.value.components.length == 1 && this.value.components[0] == "V")
     {
       emit(this.value.name,1)
     }
