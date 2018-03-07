@@ -15,8 +15,8 @@ const mongo = new Mongo(MongoClient, MONGO_URI);
 
 // ------ SCRAP ALL SPELLS IN DxContent --------
 // reset the docuement if exist
-//mongo.resetCollection("skills");
- co(function* (){
+mongo.resetCollection("skills");
+co(function* (){
    let skills = [];
    for (var i = 1; i < 1976; i++) {
      if (i != 1972 && i != 1841) {
