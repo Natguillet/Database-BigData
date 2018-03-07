@@ -18,6 +18,10 @@ module.exports = (index) => {
         let $ = cheerio.load(body), pageData = {};
 
         // 3. Extract the data
+        if($('.heading').text() == null)
+        {
+          return;
+        }
         pageData['skillName'] = $('.heading').text();
         $('.SPDet').map(function(i, el) {
           // this === el
