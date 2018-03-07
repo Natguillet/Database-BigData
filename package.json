@@ -7,6 +7,7 @@
     "cheerio": "^1.0.0-rc.2",
     "co": "^4.6.0",
     "mongodb": "^3.0.2",
+    "sqlite3": "^3.1.13",
     "tinyreq": "^3.3.1"
   },
   "devDependencies": {},
