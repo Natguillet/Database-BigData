@@ -13,8 +13,9 @@ const {
 
 const mongo = new Mongo(MongoClient, MONGO_URI);
 
-mongo.resetCollection('nice_spell');
-mongo.getgoodWizardSpell();
+//mongo.resetCollection('nice_spell');
+//mongo.getgoodWizardSpell();
+mongo.pageRank();
 // ------ SCRAP ALL SPELLS IN DxContent --------
 //mongo.resetCollection("wizard_spell");
  /*co(function* (){

@@ -118,7 +118,68 @@ class Mongo {
         out : "nice_spell"
     }))
 }
-}
+  /**
+   * [insertSkill description]
+   * @param  {[type]} skill [description]
+   * @return {[type]}       [description]
+   */
+  insertPages(pages) {
+    return this.getConnection()
+    .then(db => db.collection('pageRank'))
+    .then(col => col.insert(pages));
+  }
 
+  mapReducer(map,reduce)
+  {
+    return this.getConnection()
+    .then(db => db.collection('pageRank'))
+    .then(col =>{
+       col.mapReduce(map, reduce, {
+          out : "result"
+      }, function(err, docs, lastErrorObject){
+            for(var y=0; y<20; y++)
+            {
+                console.log(y);
+                console.log(this);
+                mapReducer(map,reduce);
+            }
+        }
+      );
+  })
+  }
+
+  pageRank() {
+    let map = function(){
+        let url = this._id;
+        let outlink_list = this.value.outlink_list;
+        let pagerank = this.value.pagerank;
+        for (var i=0; i<outlink_list.length;i++)
+        {
+        var link = outlink_list[i];
+        emit(link, pagerank/outlink_list.length);
+      }
+        emit(url, 0);
+        emit(url, outlink_list);
+      }
+
+    let reduce = function(url, list){
+        let outlink_list = [];
+        let pagerank = 0;
+
+        list.forEach(adjlist => {
+            if(Array.isArray(adjlist)){
+                outlink_list = adjlist;
+            }
+            else{
+                pagerank = pagerank + adjlist;
+            }
+        });
+        pagerank = 1 - 0.85 + ( 0.85 * pagerank);
+        return({"outlink_list":outlink_list,"pagerank":pagerank});
+    }
+    console.log(this);
+    this.mapReducer(map,reduce);
+  }
+}
 
 module.exports = Mongo;
